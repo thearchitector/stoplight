@@ -1,15 +1,31 @@
 [tool.poetry]
 name = "anonypg"
 version = "0.0.1"
-description = "A data anonymization layer around asyncpg"
-authors = ["Elias Gabriel <egabriel@olin.edu>"]
+description = "Data anonymization signals for Tortoise ORM."
+authors = [
+    "Elias Gabriel <egabriel@olin.edu>",
+    "Shreya Chowdhary <schowdhary@olin.edu>"
+]
 license = "Apache-2.0"
 
 [tool.poetry.dependencies]
-python = ">=3.6"
-asyncpg = "^0.25.0"
+python = "^3.7"
+tortoise-orm = {extras = ["asyncpg"], version = "^0.17.8"}
 
 [tool.poetry.dev-dependencies]
+pytest = "^6.2.5"
+hypothesis = "^6.29.0"
+pytest-asyncio = "^0.16.0"
+
+[tool.isort]
+profile = "black"
+
+[tool.mypy]
+ignore_missing_imports = true
+warn_return_any = true
+show_column_numbers = true
+follow_imports = "silent"
+warn_unreachable = true
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
