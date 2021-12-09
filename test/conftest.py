@@ -12,10 +12,12 @@ class Person(models.Model):
     name = fields.TextField()
     age = fields.IntField()
     ssn = fields.IntField()
+    phone = fields.TextField()
 
     __anonymities__: List[Tuple[str, Strategies, List[Any]]] = [
-        ("name", Strategies.MOCK, ["names"]),
+        # ("name", Strategies.MOCK, [MockType.NAMES]),
         ("age", Strategies.VARY, [15]),
+        ("phone", Strategies.PARTIAL_SUPRESS, ["*** *** XXXX"]),
     ]
 
     def __str__(self):
@@ -33,6 +35,13 @@ async def setup():
     yield
 
     await Tortoise.close_connections()
+
+
+@pytest.fixture(scope="session")
+async def mock_person():
+    return await Person.create(
+        name="Mango Joe", age=20, ssn=123456789, phone="012 345 6789"
+    )
 
 
 @pytest.fixture(scope="session")
