@@ -49,6 +49,7 @@ async def anonymize(
 
         value = getattr(instance, name)
         nvalue = STRAT_TO_FUNC[strategy](value, *args)
+        setattr(instance, name, nvalue)
 
 
 __all__ = ["Strategies"]

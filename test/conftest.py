@@ -10,10 +10,12 @@ from anonypg import Strategies, init_anonymizations
 class Person(models.Model):
     id = fields.IntField(pk=True)
     name = fields.TextField()
+    age = fields.IntField()
+    ssn = fields.IntField()
 
     __anonymities__: List[Tuple[str, Strategies, List[Any]]] = [
         ("name", Strategies.MOCK, ["names"]),
-        ("age", Strategies.VARY, [0.05]),
+        ("age", Strategies.VARY, [15]),
     ]
 
     def __str__(self):

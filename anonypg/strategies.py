@@ -1,3 +1,6 @@
+import random
+from datetime import date, datetime
+from decimal import Decimal
 from enum import Enum, auto
 from typing import Type, TypeVar
 
@@ -40,10 +43,30 @@ def mock(v: T, *args) -> T:
 
 # elias
 def vary(v: T, *args) -> T:
-    """accept float percentage"""
+    """
+    Returns a new value, with variance picked from a Gaussian distribution with a mean
+    of the current value and a given standard deviation.
+
+    If the value is a date or datetime, the variance is in days.
+    """
     # adjust number by some %
     # datatypes: int, datetime, date
-    return v
+
+    if not isinstance(v, (int, float, Decimal, date, datetime)):
+        raise TypeError("Variance anonymization only works with variable fields.")
+    elif not len(args) == 1:
+        raise TypeError("A numeric variance must be given in your anonymity mapping.")
+    elif not isinstance(args[0], (float, int)):
+        # if field is int, float or Decimal
+        raise TypeError(
+            "You must supply a float or integer variance for numeric fields."
+        )
+
+    # if a date or datetime, vary by some deviation of days
+    if isinstance(v, (date, datetime)):
+        return v + timedelta(days=random.gauss(0, args[0]))
+
+    return type(v)(random.gauss(float(v), args[0]))
 
 
 STRAT_TO_FUNC = {
