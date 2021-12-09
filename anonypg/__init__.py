@@ -39,7 +39,7 @@ async def anonymize(
     db_client: Optional[BaseDBAsyncClient],
     updated_fields: List[str],
 ) -> None:
-    for name, strategy in instance.__anonymities__:
+    for name, strategy, args in instance.__anonymities__:
         if not isinstance(name, str):
             raise ValueError(f"{name} is not a valid string field identifier.")
         elif not isinstance(strategy, Strategies):
@@ -48,9 +48,7 @@ async def anonymize(
             raise AttributeError(f"{sender} does not have a writable attribute {name}.")
 
         value = getattr(instance, name)
-        nvalue = STRAT_TO_FUNC[strategy](
-            value, sender._meta.fields_map[name].field_type
-        )
+        nvalue = STRAT_TO_FUNC[strategy](value, *args)
 
 
 __all__ = ["Strategies"]

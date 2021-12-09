@@ -1,5 +1,5 @@
 import asyncio
-from typing import List, Tuple
+from typing import Any, List, Tuple
 
 import pytest
 from tortoise import Tortoise, fields, models
@@ -11,7 +11,10 @@ class Person(models.Model):
     id = fields.IntField(pk=True)
     name = fields.TextField()
 
-    __anonymities__: List[Tuple[str, Strategies]] = [("name", Strategies.SUPRESS)]
+    __anonymities__: List[Tuple[str, Strategies, List[Any]]] = [
+        ("name", Strategies.MOCK, ["names"]),
+        ("age", Strategies.VARY, [0.05]),
+    ]
 
     def __str__(self):
         return self.name
