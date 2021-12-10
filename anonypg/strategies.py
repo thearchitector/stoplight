@@ -49,6 +49,7 @@ def mock(v: Union[str, date, datetime], *args) -> Union[str, date, datetime]:
     """accepts MOCK_TYPE enum"""
     # use faker library (name, address, date)
     # datatypes: string, date, datetime
+    print(type(v))
     if not isinstance(v, (str, date, datetime)):
         raise TypeError("Mock anonymization only works with variable fields.")
     elif not len(args) == 1:
@@ -63,7 +64,7 @@ def mock(v: Union[str, date, datetime], *args) -> Union[str, date, datetime]:
     elif mock_type == MockTypes.NAME:
         return fake.name()
     elif mock_type == MockTypes.DATETIME:
-        return fake.datetime()
+        return fake.date_time()
 
 
 def vary(
