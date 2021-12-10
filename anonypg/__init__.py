@@ -4,7 +4,7 @@ from tortoise import BaseDBAsyncClient, Model, Tortoise
 from tortoise.exceptions import ConfigurationError
 from tortoise.signals import pre_save
 
-from .strategies import STRAT_TO_FUNC, Strategies
+from .strategies import STRAT_TO_FUNC, Strategies, MockTypes
 
 
 async def init_anonymizations(models: Optional[List[Type[Model]]] = None):
@@ -52,4 +52,4 @@ async def anonymize(
         setattr(instance, name, nvalue)
 
 
-__all__ = ["Strategies"]
+__all__ = ["Strategies", "MockTypes"]

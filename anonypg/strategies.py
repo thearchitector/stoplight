@@ -3,13 +3,18 @@ from datetime import date, datetime
 from decimal import Decimal
 from enum import Enum, auto
 from typing import Union
-
+from faker import Faker
 
 class Strategies(Enum):
     SUPRESS = auto()
     PARTIAL_SUPRESS = auto()
     MOCK = auto()
     VARY = auto()
+
+class MockTypes(Enum):
+    ADDRESS = auto()
+    DATETIME = auto()
+    NAME = auto()
 
 
 def supress(
@@ -18,7 +23,7 @@ def supress(
     """accepts nothing"""
     # block everything
     # datatypes: all
-    return v
+    return "<CONFIDENTIAL>"
 
 
 def partial_supress(v: str, *args: str) -> str:
@@ -44,7 +49,21 @@ def mock(v: Union[str, date, datetime], *args) -> Union[str, date, datetime]:
     """accepts MOCK_TYPE enum"""
     # use faker library (name, address, date)
     # datatypes: string, date, datetime
-    return v
+    if not isinstance(v, (str, date, datetime)):
+        raise TypeError("Mock anonymization only works with variable fields.")
+    elif not len(args) == 1:
+        raise TypeError("Mock anonymization must be given a specific mock type.")
+    elif args[0] not in MockTypes:
+        raise TypeError("You must supply a mock type that is supported.")
+    
+    mock_type = args[0]
+    fake = Faker()
+    if mock_type == MockTypes.ADDRESS:
+        return fake.address()
+    elif mock_type == MockTypes.NAME:
+        return fake.name()
+    elif mock_type == MockTypes.DATETIME:
+        return fake.datetime()
 
 
 def vary(
