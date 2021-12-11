@@ -14,13 +14,21 @@ There are five broad categories of anonymization operation:
 * permutation, which disassociates relations between a quasi-identifier and sensitive attribute by dividing a number of data records into group and mixing their sensiive values in every group
 * perturbation, which replaces original values with new ones by interchanging, adding noise, or creating synthetic data
 
+Not every strategy is best-suited to every type of data. For example, suppression and random substitution (a type of perturbation) would be good for useless attributes but are unhelpful for data that is actually significant. Also, some kinds of perturbation, like numeric variance, are best for numeric/dates data and not helpful for text data.
+
 The are many existing tools for data anonymization in Python, like:
 * The Faker & Fake Factory libraries, which generate fake data (see an example [here](https://www.districtdatalabs.com/a-practical-guide-to-anonymizing-datasets-with-python-faker))
 * Using built-in pandas operations, like deleting columns, encoding columns, or other approaches (see an example [here](https://medium.com/codex/data-anonymization-with-python-8976db6ded36))
 ## Our Solution (E)
 ## Sources
 [Wikipedia](https://en.wikipedia.org/wiki/Data_anonymization#cite_note-:0-6)
+
 [An Efficient Big Data Anonymization Algorithm Based on Chaos and Perturbation Techniques](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7512893/)
+
 [Netflix paper, Arvind Narayanan](https://web.archive.org/web/20131216184011/http://33bits.org/about/netflix-paper-home-page/)
+
 [Why you can't really anonymize your data](https://web.archive.org/web/20140109052803/http://strata.oreilly.com/2011/05/anonymize-data-limits.html)
+
 [Researchers spotlight the lie of 'anonymous' data](https://techcrunch.com/2019/07/24/researchers-spotlight-the-lie-of-anonymous-data/)
+
+[8 Anonymization Strategies with PostgreSQL](https://blog.taadeem.net/english/2019/01/03/8_anonymization_strategies_with_postgres)]
