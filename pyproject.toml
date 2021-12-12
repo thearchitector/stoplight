@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "anonypg"
+name = "stoplight"
 version = "0.0.1"
 description = "Data anonymization signals for Tortoise ORM."
 authors = [

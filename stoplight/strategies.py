@@ -1,9 +1,16 @@
 import random
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from decimal import Decimal
 from enum import Enum, auto
-from typing import Union
+from typing import TypeVar, Union
+
 from faker import Faker
+
+T = TypeVar("T", float, int, Decimal, bytes, bool, str, date, datetime)
+S = TypeVar("S", str, date, datetime)
+U = TypeVar("U", int, float, Decimal, date, datetime)
+FAKER = Faker()
+
 
 class Strategies(Enum):
     SUPRESS = auto()
@@ -11,18 +18,18 @@ class Strategies(Enum):
     MOCK = auto()
     VARY = auto()
 
+
 class MockTypes(Enum):
     ADDRESS = auto()
     DATETIME = auto()
     NAME = auto()
 
 
-def supress(
-    v: Union[float, int, Decimal, bytes, bool, str, date, datetime], *args
-) -> Union[float, int, Decimal, bytes, bool, str, date, datetime]:
-    """accepts nothing"""
-    # block everything
-    # datatypes: all
+def supress(v: str, *args) -> str:
+    """Supresses the input field by returning a static anonymous string."""
+    if not isinstance(v, str):
+        raise TypeError("Supression only works on strings.")
+
     return "<CONFIDENTIAL>"
 
 
@@ -45,31 +52,38 @@ def partial_supress(v: str, *args: str) -> str:
     return "".join([p if p == "*" else c for c, p in zip(v, args[0])])
 
 
-def mock(v: Union[str, date, datetime], *args) -> Union[str, date, datetime]:
+def mock(v: S, *args) -> S:
     """accepts MOCK_TYPE enum"""
-    # use faker library (name, address, date)
-    # datatypes: string, date, datetime
-    print(type(v))
+
     if not isinstance(v, (str, date, datetime)):
-        raise TypeError("Mock anonymization only works with variable fields.")
-    elif not len(args) == 1:
+        raise TypeError("Mock anonymization only works with supported fields.")
+    elif not (len(args) == 1 and isinstance(args[0], MockTypes)):
         raise TypeError("Mock anonymization must be given a specific mock type.")
-    elif args[0] not in MockTypes:
-        raise TypeError("You must supply a mock type that is supported.")
-    
+
     mock_type = args[0]
-    fake = Faker()
     if mock_type == MockTypes.ADDRESS:
-        return fake.address()
+        if not isinstance(v, str):
+            raise TypeError("Address mocking can only be done with text fields.")
+
+        return FAKER.address()  # type: ignore
     elif mock_type == MockTypes.NAME:
-        return fake.name()
+        if not isinstance(v, str):
+            raise TypeError("Name mocking can only be done with text fields.")
+
+        return FAKER.name()  # type: ignore
     elif mock_type == MockTypes.DATETIME:
-        return fake.date_time()
+        if not isinstance(v, datetime):
+            raise TypeError("Datetime mocking can only be done with datetime fields.")
+
+        return FAKER.date_time()  # type: ignore
+    else:
+        if not isinstance(v, date):
+            raise TypeError("Date mocking can only be done with datetime fields.")
+
+        return FAKER.date_time().date()  # type: ignore
 
 
-def vary(
-    v: Union[int, float, Decimal, date, datetime], *args: Union[float, int]
-) -> Union[int, float, Decimal, date, datetime]:
+def vary(v: U, *args: Union[float, int]) -> U:
     """
     Returns a new value, with variance picked from a Gaussian distribution with a mean
     of the current value and a given standard deviation.

@@ -1,10 +1,10 @@
-from typing import Dict, List, Optional, Type
+from typing import List, Optional, Type
 
 from tortoise import BaseDBAsyncClient, Model, Tortoise
 from tortoise.exceptions import ConfigurationError
 from tortoise.signals import pre_save
 
-from .strategies import STRAT_TO_FUNC, Strategies, MockTypes
+from .strategies import STRAT_TO_FUNC, MockTypes, Strategies
 
 
 async def init_anonymizations(models: Optional[List[Type[Model]]] = None):
@@ -40,6 +40,7 @@ async def anonymize(
     updated_fields: List[str],
 ) -> None:
     for name, strategy, args in instance.__anonymities__:
+        # ensure that tuples passed through anonymities are valid
         if not isinstance(name, str):
             raise ValueError(f"{name} is not a valid string field identifier.")
         elif not isinstance(strategy, Strategies):
@@ -47,9 +48,10 @@ async def anonymize(
         elif not hasattr(instance, name):
             raise AttributeError(f"{sender} does not have a writable attribute {name}.")
 
+        # get the current value, create the anonymized value, and set it
         value = getattr(instance, name)
-        nvalue = STRAT_TO_FUNC[strategy](value, *args)
+        nvalue = STRAT_TO_FUNC[strategy](value, *args)  # type: ignore
         setattr(instance, name, nvalue)
 
 
-__all__ = ["Strategies", "MockTypes"]
+__all__ = ["init_anonymizations", "Strategies", "MockTypes"]

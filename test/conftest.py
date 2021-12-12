@@ -1,11 +1,12 @@
 import asyncio
-from typing import Any, List, Tuple
 import datetime
+from typing import Any, List, Tuple
 
 import pytest
 from tortoise import Tortoise, fields, models
 
-from anonypg import Strategies, MockTypes, init_anonymizations
+from stoplight import MockTypes, Strategies, init_anonymizations
+
 
 class Person(models.Model):
     id = fields.IntField(pk=True)
@@ -14,14 +15,14 @@ class Person(models.Model):
     ssn = fields.IntField()
     phone = fields.TextField()
     address = fields.TextField()
-    last_visit_date = fields.DatetimeField
+    last_visit_date = fields.DatetimeField()
 
     __anonymities__: List[Tuple[str, Strategies, List[Any]]] = [
         ("age", Strategies.VARY, [15]),
         ("phone", Strategies.PARTIAL_SUPRESS, ["*** *** XXXX"]),
         ("name", Strategies.SUPRESS, []),
         ("address", Strategies.MOCK, [MockTypes.ADDRESS]),
-        ("last_visit_date", Strategies.MOCK, [MockTypes.DATETIME])
+        ("last_visit_date", Strategies.MOCK, [MockTypes.DATETIME]),
     ]
 
     def __str__(self):
@@ -44,9 +45,12 @@ async def setup():
 @pytest.fixture(scope="session")
 async def mock_person():
     return await Person.create(
-        name="Mango Joe", age=20, ssn=123456789, 
-        phone="012 345 6789", address="1000 Olin Way, Needham MA 02492",
-        last_visit_date = datetime.datetime(2021, 12, 9, 8, 4)
+        name="Mango Joe",
+        age=20,
+        ssn=123456789,
+        phone="012 345 6789",
+        address="1000 Olin Way, Needham MA 02492",
+        last_visit_date=datetime.datetime(2021, 12, 9, 8, 4),
     )
 
 
