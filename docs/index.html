@@ -30,10 +30,10 @@
                     <a class="class" href="#Strategies">Strategies</a>
                             <ul class="memberlist">
                         <li>
-                                <a class="variable" href="#Strategies.SUPRESS">SUPRESS</a>
+                                <a class="variable" href="#Strategies.SUPPRESS">SUPPRESS</a>
                         </li>
                         <li>
-                                <a class="variable" href="#Strategies.PARTIAL_SUPRESS">PARTIAL_SUPRESS</a>
+                                <a class="variable" href="#Strategies.PARTIAL_SUPPRESS">PARTIAL_SUPPRESS</a>
                         </li>
                         <li>
                                 <a class="variable" href="#Strategies.MOCK">MOCK</a>
@@ -203,11 +203,11 @@ Tortoise initialization is complete.</p>
             <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Strategies</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;All supported anonymization strategies.&quot;&quot;&quot;</span>
 
-    <span class="n">SUPRESS</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
-    <span class="sd">&quot;&quot;&quot;Supresses the input field by returning a static anonymous string. Only works with string fields.&quot;&quot;&quot;</span>
-    <span class="n">PARTIAL_SUPRESS</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+    <span class="n">SUPPRESS</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+    <span class="sd">&quot;&quot;&quot;Suppresses the input field by returning a static anonymous string. Only works with string fields.&quot;&quot;&quot;</span>
+    <span class="n">PARTIAL_SUPPRESS</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns a partially supressed string based on the given input pattern.</span>
+<span class="sd">    Returns a partially suppressed string based on the given input pattern.</span>
 <span class="sd">    The input pattern can consit of any character, but &#39;*&#39;s will overwrite</span>
 <span class="sd">    the character in the input. The pattern and value must always be the same</span>
 <span class="sd">    length.</span>
@@ -235,24 +235,24 @@ Tortoise initialization is complete.</p>
 </div>
 
 
-                            <div id="Strategies.SUPRESS" class="classattr">
-                                            <div class="attr variable"><a class="headerlink" href="#Strategies.SUPRESS">#&nbsp;&nbsp</a>
+                            <div id="Strategies.SUPPRESS" class="classattr">
+                                            <div class="attr variable"><a class="headerlink" href="#Strategies.SUPPRESS">#&nbsp;&nbsp</a>
 
-        <span class="name">SUPRESS</span><span class="default_value"> = &lt;<a href="#Strategies.SUPRESS">Strategies.SUPRESS</a>: 1&gt;</span>
+        <span class="name">SUPPRESS</span><span class="default_value"> = &lt;<a href="#Strategies.SUPPRESS">Strategies.SUPPRESS</a>: 1&gt;</span>
     </div>
 
-            <div class="docstring"><p>Supresses the input field by returning a static anonymous string. Only works with string fields.</p>
+            <div class="docstring"><p>Suppresses the input field by returning a static anonymous string. Only works with string fields.</p>
 </div>
 
 
                             </div>
-                            <div id="Strategies.PARTIAL_SUPRESS" class="classattr">
-                                            <div class="attr variable"><a class="headerlink" href="#Strategies.PARTIAL_SUPRESS">#&nbsp;&nbsp</a>
+                            <div id="Strategies.PARTIAL_SUPPRESS" class="classattr">
+                                            <div class="attr variable"><a class="headerlink" href="#Strategies.PARTIAL_SUPPRESS">#&nbsp;&nbsp</a>
 
-        <span class="name">PARTIAL_SUPRESS</span><span class="default_value"> = &lt;<a href="#Strategies.PARTIAL_SUPRESS">Strategies.PARTIAL_SUPRESS</a>: 2&gt;</span>
+        <span class="name">PARTIAL_SUPPRESS</span><span class="default_value"> = &lt;<a href="#Strategies.PARTIAL_SUPPRESS">Strategies.PARTIAL_SUPPRESS</a>: 2&gt;</span>
     </div>
 
-            <div class="docstring"><p>Returns a partially supressed string based on the given input pattern.
+            <div class="docstring"><p>Returns a partially suppressed string based on the given input pattern.
 The input pattern can consit of any character, but '*'s will overwrite
 the character in the input. The pattern and value must always be the same
 length.</p>

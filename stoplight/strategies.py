@@ -15,11 +15,11 @@ FAKER = Faker()
 class Strategies(Enum):
     """All supported anonymization strategies."""
 
-    SUPRESS = auto()
-    """Supresses the input field by returning a static anonymous string. Only works with string fields."""
-    PARTIAL_SUPRESS = auto()
+    SUPPRESS = auto()
+    """Suppresses the input field by returning a static anonymous string. Only works with string fields."""
+    PARTIAL_SUPPRESS = auto()
     """
-    Returns a partially supressed string based on the given input pattern.
+    Returns a partially suppressed string based on the given input pattern.
     The input pattern can consit of any character, but '*'s will overwrite
     the character in the input. The pattern and value must always be the same
     length.
@@ -55,17 +55,17 @@ class MockTypes(Enum):
     """Generates random English full names."""
 
 
-def supress(v: str, *args) -> str:
-    """Supresses the input field by returning a static anonymous string."""
+def suppress(v: str, *args) -> str:
+    """Suppresses the input field by returning a static anonymous string."""
     if not isinstance(v, str):
         raise TypeError("Supression only works on strings.")
 
     return "<CONFIDENTIAL>"
 
 
-def partial_supress(v: str, *args: str) -> str:
+def partial_suppress(v: str, *args: str) -> str:
     """
-    Returns a partially supressed string based on the given input pattern.
+    Returns a partially suppressed string based on the given input pattern.
     The input pattern can consit of any character, but '*'s will overwrite
     the character in the input. The pattern and value must always be the same
     length.
@@ -73,9 +73,9 @@ def partial_supress(v: str, *args: str) -> str:
     >> ex. the value "012 345 6789" with pattern "*** *** XXXX" returns "*** *** 6789"
     """
     if not isinstance(v, str):
-        raise TypeError("Partial supression only works with strings.")
+        raise TypeError("Partial suppression only works with strings.")
     elif not (len(args) == 1 and isinstance(args[0], str)):
-        raise TypeError("Partial supression requires a string pattern argument.")
+        raise TypeError("Partial suppression requires a string pattern argument.")
     elif not len(v) == len(args[0]):
         raise ValueError("Mismatching value and pattern lengths.")
 
@@ -141,8 +141,8 @@ def vary(v: U, *args: Union[float, int]) -> U:
 
 
 STRAT_TO_FUNC = {
-    Strategies.SUPRESS: supress,
-    Strategies.PARTIAL_SUPRESS: partial_supress,
+    Strategies.SUPPRESS: suppress,
+    Strategies.PARTIAL_SUPPRESS: partial_suppress,
     Strategies.MOCK: mock,
     Strategies.VARY: vary,
 }

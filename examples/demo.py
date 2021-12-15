@@ -10,7 +10,7 @@ class Person(models.Model):
     age = fields.IntField()
 
     __anonymities__ = [
-        ("name", Strategies.SUPRESS, []),
+        ("name", Strategies.SUPPRESS, []),
         ("age", Strategies.VARY, [5])
     ]
 

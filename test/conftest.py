@@ -19,8 +19,8 @@ class Person(models.Model):
 
     __anonymities__: List[Tuple[str, Strategies, List[Any]]] = [
         ("age", Strategies.VARY, [15]),
-        ("phone", Strategies.PARTIAL_SUPRESS, ["*** *** XXXX"]),
-        ("name", Strategies.SUPRESS, []),
+        ("phone", Strategies.PARTIAL_SUPPRESS, ["*** *** XXXX"]),
+        ("name", Strategies.SUPPRESS, []),
         ("address", Strategies.MOCK, [MockTypes.ADDRESS]),
         ("last_visit_date", Strategies.MOCK, [MockTypes.DATETIME]),
     ]
