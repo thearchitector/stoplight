@@ -53,8 +53,11 @@ def partial_supress(v: str, *args: str) -> str:
 
 
 def mock(v: S, *args) -> S:
-    """accepts MOCK_TYPE enum"""
-
+    """
+    Returns a new value given the requested mocking type. Currently, only
+    address, full name, and datetime, and date mocks are available. Fields must
+    be the correct type in order to be mockable with the given method.
+    """
     if not isinstance(v, (str, date, datetime)):
         raise TypeError("Mock anonymization only works with supported fields.")
     elif not (len(args) == 1 and isinstance(args[0], MockTypes)):

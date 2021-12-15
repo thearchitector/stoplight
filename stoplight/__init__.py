@@ -47,6 +47,8 @@ async def anonymize(
             raise ValueError(f"{strategy} is not a valid anonymization Strategy.")
         elif not hasattr(instance, name):
             raise AttributeError(f"{sender} does not have a writable attribute {name}.")
+        elif name == instance._meta.pk_attr:
+            raise ValueError("You cannot anonymize primary keys.")
 
         # get the current value, create the anonymized value, and set it
         value = getattr(instance, name)
