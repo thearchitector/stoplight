@@ -9,8 +9,9 @@ from .strategies import STRAT_TO_FUNC, MockTypes, Strategies
 
 async def init_anonymizations(models: Optional[List[Type[Model]]] = None):
     """
-    Register anonymization strategies in every model. If models should be from
-    discovery, this must be called after Tortoise initialization is complete.
+    Register anonymization strategies for every model with a defined anonymities
+    mapping. If models should be from discovery, this must be called after
+    Tortoise initialization is complete.
     """
     # if models are not provided
     if not models:

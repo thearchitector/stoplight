@@ -13,16 +13,46 @@ FAKER = Faker()
 
 
 class Strategies(Enum):
-    SUPRESS = auto()
-    PARTIAL_SUPRESS = auto()
-    MOCK = auto()
-    VARY = auto()
+    """All supported anonymization strategies."""
 
+    SUPRESS = auto()
+    """Supresses the input field by returning a static anonymous string. Only works with string fields."""
+    PARTIAL_SUPRESS = auto()
+    """
+    Returns a partially supressed string based on the given input pattern.
+    The input pattern can consit of any character, but '*'s will overwrite
+    the character in the input. The pattern and value must always be the same
+    length.
+
+    >> ex. the value "012 345 6789" with pattern "*** *** XXXX" returns "*** *** 6789"
+    """
+    MOCK = auto()
+    """
+    Returns a new value given the requested mocking type. Currently, only
+    address, full name, and datetime, and date mocks are available. Fields must
+    be the correct type in order to be mockable with the given method.
+    """
+    VARY = auto()
+    """
+    Returns a new value, with variance picked from a Gaussian distribution with a mean
+    of the current value and a given standard deviation.
+
+    If the value is a date or datetime, the variance is in days.
+    """
 
 class MockTypes(Enum):
+    """
+    All supported mock types.
+    
+    Each type is a valid provider in the Faker library <https://faker.rtfd.org/en/master/providers.html>.
+    """
+
     ADDRESS = auto()
+    """Generates single-line full addresses in the United States."""
     DATETIME = auto()
+    """Generates dates or datetimes within any UNIX epoch."""
     NAME = auto()
+    """Generates random English full names."""
 
 
 def supress(v: str, *args) -> str:
